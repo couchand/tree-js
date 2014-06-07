@@ -8,6 +8,7 @@ Node = require './node'
 
 shouldScan = (name, options) ->
   (name[0] isnt '.' or name is '.' or name is '..') and
+    (not options.exclude? or not new RegExp(options.exclude).test name) and
     (not options.depth? or options.depth > 0)
 
 scanDir = (within, dir, options, cb) ->

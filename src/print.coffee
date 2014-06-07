@@ -10,15 +10,19 @@ byName = (a, b) ->
   else
     0
 
-print = (tree, indent='') ->
+print = (tree, options, indent='') ->
+  exclude = options.exclude? and new RegExp options.exclude
   display = tree.display()
   console.log indent + display
   spaces = indent.replace /[^│├]/g, ' '
     .replace /├/g, '│'
-  contents = tree.contents.sort byName
+  contents = tree.contents
+    .sort byName
+    .filter (child) ->
+      child.name[0] isnt '.' and
+        not (exclude and exclude.test child.name)
   for i, child of contents
-    continue if child.name[0] is '.'
     joint = if i is "#{contents.length - 1}" then "└" else "├"
-    print child, "#{spaces}#{joint}── "
+    print child, options, "#{spaces}#{joint}── "
 
 module.exports = print

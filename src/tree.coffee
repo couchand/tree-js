@@ -8,6 +8,6 @@ print = require './print'
 tree = (dir, opts) ->
   scan dir, opts, (err, tree) ->
     return console.error err if err
-    print tree
+    print tree, opts
 
 module.exports = tree

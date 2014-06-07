@@ -12,6 +12,9 @@ opts = require 'nomnom'
     depth:
       abbr: "L"
       help: "Depth of directories to recurse"
+    exclude:
+      abbr: "I"
+      help: "Exclude files matching this pattern"
   .parse()
 
 unless opts?.path?.length
