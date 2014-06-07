@@ -1,0 +1,17 @@
+#!/usr/local/bin/coffee
+
+tree = require '../src/tree'
+
+opts = require 'nomnom'
+  .script 'tree'
+  .options
+    path:
+      position: 0
+      help: "Directory paths to show"
+      list: yes
+  .parse()
+
+unless opts?.path?.length
+  tree '.'
+else for path in opts.path
+  tree path

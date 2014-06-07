@@ -1,0 +1,13 @@
+{
+  "name": "tree-js",
+  "version": "0.0.1",
+  "description": "a directory tree app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/couchand/tree-js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "nomnom": "~1.7.0"
+  }
+}
