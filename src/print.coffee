@@ -19,7 +19,7 @@ print = (tree, options, indent='') ->
   contents = tree.contents
     .sort byName
     .filter (child) ->
-      child.name[0] isnt '.' and
+      (child.name[0] isnt '.' or options.allFiles) and
         not (exclude and exclude.test child.name)
   if options.directoriesOnly
     contents = contents.filter (child) -> child.isDirectory()

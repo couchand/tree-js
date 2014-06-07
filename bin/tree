@@ -19,6 +19,10 @@ opts = require 'nomnom'
       abbr: "d"
       flag: yes
       help: "Only list directories"
+    allFiles:
+      abbr: "a"
+      flag: yes
+      help: "List all files, including dot-files"
   .parse()
 
 unless opts?.path?.length
