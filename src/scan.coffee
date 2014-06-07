@@ -16,7 +16,8 @@ scanDir = (within, dir, options, cb) ->
   depth = options.depth - 1 if options.depth
   options = _.extend {}, options, {depth}
   fs.readdir dirpath, (err, contents) ->
-    left = contents.length
+    if 0 is left = contents.length
+      cb null, dir
     check = (err, file) ->
       if err
         left = -1
