@@ -5,6 +5,9 @@ path = require 'path'
 
 Node = require './node'
 
+shouldScan = (name) ->
+  name[0] isnt '.' or name is '.' or name is '..'
+
 scanDir = (within, dir, cb) ->
   dirpath = path.join within, dir.name
   fs.readdir dirpath, (err, contents) ->
@@ -25,7 +28,7 @@ scanFile = (within, filename, cb) ->
   filepath = path.join within, filename
   fs.stat filepath, (err, stats) ->
     return cb err if err
-    unless stats.isDirectory()
+    unless stats.isDirectory() and shouldScan filename
       cb null, new Node filename, stats
     else
       dir = new Node filename, stats
