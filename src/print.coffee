@@ -21,6 +21,8 @@ print = (tree, options, indent='') ->
     .filter (child) ->
       child.name[0] isnt '.' and
         not (exclude and exclude.test child.name)
+  if options.directoriesOnly
+    contents = contents.filter (child) -> child.isDirectory()
   for i, child of contents
     joint = if i is "#{contents.length - 1}" then "└" else "├"
     print child, options, "#{spaces}#{joint}── "

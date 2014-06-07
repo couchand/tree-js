@@ -15,6 +15,10 @@ opts = require 'nomnom'
     exclude:
       abbr: "I"
       help: "Exclude files matching this pattern"
+    directoriesOnly:
+      abbr: "d"
+      flag: yes
+      help: "Only list directories"
   .parse()
 
 unless opts?.path?.length
