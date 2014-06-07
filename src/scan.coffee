@@ -32,10 +32,16 @@ scanDir = (within, dir, options, cb) ->
 
 scanFile = (within, filename, options, cb) ->
   filepath = path.join within, filename
-  fs.stat filepath, (err, stats) ->
+  fs.lstat filepath, (err, stats) ->
     return cb err if err
     unless stats.isDirectory() and shouldScan filename, options
-      cb null, new Node filename, stats
+      if stats.isSymbolicLink()
+        fs.readlink filepath, (err, link) ->
+          node = new Node filename, stats
+          node.linkTarget = link
+          cb null, node
+      else
+        cb null, new Node filename, stats
     else
       dir = new Node filename, stats
       scanDir within, dir, options, cb
