@@ -11,10 +11,7 @@ byName = (a, b) ->
     0
 
 print = (tree, indent='') ->
-  display = if tree.isDirectory()
-    tree.name.blue.bold
-  else
-    tree.name
+  display = tree.display()
   console.log indent + display
   spaces = indent.replace /[^│├]/g, ' '
     .replace /├/g, '│'
