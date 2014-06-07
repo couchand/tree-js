@@ -38,8 +38,10 @@ scanFile = (within, filename, options, cb) ->
       if stats.isSymbolicLink()
         fs.readlink filepath, (err, link) ->
           node = new Node filename, stats
-          node.linkTarget = link
-          cb null, node
+          scanFile within, link, options, (err, target) ->
+            return cb err if err
+            node.linkTarget = target
+            cb null, node
       else
         cb null, new Node filename, stats
     else

@@ -20,7 +20,7 @@ class Node
     if @isDirectory()
       @name.blue.bold
     else if @isSymbolicLink()
-      "#{@name.cyan.bold} -> #{@linkTarget}"
+      "#{@name.cyan.bold} -> #{@linkTarget.display()}"
     else if @isExecutable()
       @name.green.bold
     else
