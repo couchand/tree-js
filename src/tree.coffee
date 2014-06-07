@@ -1,10 +1,12 @@
 # tree
 
+_ = require 'underscore'
+
 scan = require './scan'
 print = require './print'
 
-tree = (dir) ->
-  scan dir, (err, tree) ->
+tree = (dir, opts) ->
+  scan dir, opts, (err, tree) ->
     return console.error err if err
     print tree
 

@@ -2,14 +2,18 @@
 
 fs = require 'fs'
 path = require 'path'
+_ = require 'underscore'
 
 Node = require './node'
 
-shouldScan = (name) ->
-  name[0] isnt '.' or name is '.' or name is '..'
+shouldScan = (name, options) ->
+  (name[0] isnt '.' or name is '.' or name is '..') and
+    (not options.depth? or options.depth > 0)
 
-scanDir = (within, dir, cb) ->
+scanDir = (within, dir, options, cb) ->
   dirpath = path.join within, dir.name
+  depth = options.depth - 1 if options.depth
+  options = _.extend {}, options, {depth}
   fs.readdir dirpath, (err, contents) ->
     left = contents.length
     check = (err, file) ->
@@ -22,19 +26,19 @@ scanDir = (within, dir, cb) ->
         cb null, dir if 0 is left
 
     contents.forEach (filename) ->
-      scanFile dirpath, filename, check
+      scanFile dirpath, filename, options, check
 
-scanFile = (within, filename, cb) ->
+scanFile = (within, filename, options, cb) ->
   filepath = path.join within, filename
   fs.stat filepath, (err, stats) ->
     return cb err if err
-    unless stats.isDirectory() and shouldScan filename
+    unless stats.isDirectory() and shouldScan filename, options
       cb null, new Node filename, stats
     else
       dir = new Node filename, stats
-      scanDir within, dir, cb
+      scanDir within, dir, options, cb
 
-scan = (dirname, cb) ->
-  scanFile '.', dirname, cb
+scan = (dirname, options, cb) ->
+  scanFile '.', dirname, options, cb
 
 module.exports = scan

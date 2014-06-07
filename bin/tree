@@ -9,9 +9,12 @@ opts = require 'nomnom'
       position: 0
       help: "Directory paths to show"
       list: yes
+    depth:
+      abbr: "L"
+      help: "Depth of directories to recurse"
   .parse()
 
 unless opts?.path?.length
-  tree '.'
+  tree '.', opts
 else for path in opts.path
-  tree path
+  tree path, opts
