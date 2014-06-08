@@ -2,7 +2,16 @@
 
 class Node
   constructor: (@name, @stats) ->
-    @contents = []
+    @_contents = []
+
+  add: (file) ->
+    @_contents.push file
+
+  contents: ->
+    if @isSymbolicLink() and @linkTarget
+      @linkTarget.contents()
+    else
+      @_contents
 
   isDirectory: ->
     @stats.isDirectory()

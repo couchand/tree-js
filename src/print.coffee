@@ -16,7 +16,7 @@ print = (tree, options, indent='') ->
   console.log indent + display
   spaces = indent.replace /[^│├]/g, ' '
     .replace /├/g, '│'
-  contents = tree.contents
+  contents = tree.contents()
     .sort byName
     .filter (child) ->
       (child.name[0] isnt '.' or options.allFiles) and
@@ -24,6 +24,8 @@ print = (tree, options, indent='') ->
   if options.directoriesOnly
     contents = contents.filter (child) ->
       child.isDirectory() or child.isSymbolicLink() and child.linkTarget.isDirectory()
+  if tree.isSymbolicLink()
+    return unless options.followLinks
   for i, child of contents
     joint = if i is "#{contents.length - 1}" then "└" else "├"
     print child, options, "#{spaces}#{joint}── "

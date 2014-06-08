@@ -23,7 +23,7 @@ scanDir = (within, dir, options, cb) ->
         left = -1
         cb err
       else
-        dir.contents.push file
+        dir.add file
         left = left - 1
         cb null, dir if 0 is left
 

@@ -23,6 +23,10 @@ opts = require 'nomnom'
       abbr: "a"
       flag: yes
       help: "List all files, including dot-files"
+    followLinks:
+      abbr: "l"
+      flag: yes
+      help: "Follow symbolic links to directories"
   .parse()
 
 unless opts?.path?.length
