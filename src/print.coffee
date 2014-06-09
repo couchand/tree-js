@@ -21,6 +21,14 @@ print = (tree, options, indent='') ->
     .filter (child) ->
       (child.name[0] isnt '.' or options.allFiles) and
         not (exclude and exclude.test child.name)
+
+  directories = files = 0
+  for child in contents
+    if child.isDirectory() or child.isSymbolicLink() and child.linkTarget.isDirectory()
+      directories += 1
+    else
+      files += 1
+
   if options.directoriesOnly
     contents = contents.filter (child) ->
       child.isDirectory() or child.isSymbolicLink() and child.linkTarget.isDirectory()
@@ -28,6 +36,10 @@ print = (tree, options, indent='') ->
     return unless options.followLinks
   for i, child of contents
     joint = if i is "#{contents.length - 1}" then "└" else "├"
-    print child, options, "#{spaces}#{joint}── "
+    children = print child, options, "#{spaces}#{joint}── "
+    directories += children?.directories or 0
+    files += children?.files or 0
+
+  {directories, files}
 
 module.exports = print

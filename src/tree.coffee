@@ -8,6 +8,12 @@ print = require './print'
 tree = (dir, opts) ->
   scan dir, opts, (err, tree) ->
     return console.error err if err
-    print tree, opts
+    {directories, files} = print tree, opts
+
+    totals = "#{directories} directories"
+    unless opts.directoriesOnly
+      totals += ", #{files} files"
+    console.log ""
+    console.log totals
 
 module.exports = tree
