@@ -1,4 +1,4 @@
-# tree data structure
+# file data structure
 
 class Node
   constructor: (@name, @stats) ->

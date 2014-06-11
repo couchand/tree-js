@@ -1,6 +1,6 @@
 # print a tree
 
-#require 'colors'
+require 'colors'
 
 byName = (a, b) ->
   if a.name < b.name
@@ -18,6 +18,8 @@ print = (tree, options, indent='') ->
     .replace /├/g, '│'
   contents = tree.contents()
     .sort byName
+    .filter (child) ->
+      child.isFile() or child.isDirectory() or child.isSymbolicLink()
     .filter (child) ->
       (child.name[0] isnt '.' or options.allFiles) and
         not (exclude and exclude.test child.name)
