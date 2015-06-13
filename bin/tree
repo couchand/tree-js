@@ -49,7 +49,7 @@ if opts?
     return
 
   if opts.path?
-    tree path, opts
+    tree opts.path[0], opts
     return
 
-  tree '.', opts
+tree '.', opts
