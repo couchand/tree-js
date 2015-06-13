@@ -1,6 +1,10 @@
 #!/usr/local/bin/coffee
 
+fs = require 'fs'
+path = require 'path'
+
 tree = require '../src/tree'
+treejs = require '../src/tree-js'
 
 opts = require 'nomnom'
   .script 'tree'
@@ -27,9 +31,25 @@ opts = require 'nomnom'
       abbr: "l"
       flag: yes
       help: "Follow symbolic links to directories"
+    json:
+      abbr: "f"
+      help: "Print the contents of the JSON file"
   .parse()
 
-unless opts?.path?.length
+loadJson = (name) ->
+  filename = path.resolve name
+  stats = fs.statSync filename
+  file = fs.readFileSync filename
+  JSON.parse file.toString()
+
+if opts?
+  if opts.json?
+    obj = loadJson opts.json
+    treejs obj, opts
+    return
+
+  if opts.path?
+    tree path, opts
+    return
+
   tree '.', opts
-else for path in opts.path
-  tree path, opts
